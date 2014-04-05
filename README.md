@@ -4,7 +4,7 @@ Indentation text-objects to give your old Vim some new byte.
 
 ## Introduction
 
-In addition to helping old people chew food, "dentures" is a playful term I 
+In addition to helping old people chew food, "dentures" is a playful term
 made up for indentation *text-objects*, and is also the name of this plugin.
 
 ## Text Objects

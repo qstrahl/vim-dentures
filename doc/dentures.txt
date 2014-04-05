@@ -6,8 +6,8 @@ License:        Same as Vim (see |license|)
 
 INTRODUCTION                                    *dentures*
 
-In addition to helping old people chew food, "dentures" is a playful term I 
-made up for indentation |text-objects|, and is also the name of this plugin.
+In addition to helping old people chew food, "dentures" is a playful term made
+up for indentation |text-objects|, and is also the name of this plugin.
 
 TEXT OBJECTS                                    *dentures-text-objects*
 
