@@ -23,7 +23,7 @@ function! s:lastline (start, step, match, stop, vars)
     let l:prevblank = 0
     let l:line = a:start
     let l:indent = indent(l:line)
-    let l:match = 0
+    let l:lastline = 0
 
     "" Transclude a:vars into l: scope
     for l:item in items(a:vars)
@@ -44,7 +44,7 @@ function! s:lastline (start, step, match, stop, vars)
         endif
 
         if eval(a:match)
-            let l:match = l:line
+            let l:lastline = l:line
         endif
 
         let l:prevline = l:line
@@ -53,7 +53,7 @@ function! s:lastline (start, step, match, stop, vars)
         let l:line += a:step
     endwhile
 
-    return l:match
+    return l:lastline
 endfunction
 
 "" Return a nonblank line number near line "line", searching forward first, then backward if necessary
