@@ -70,12 +70,12 @@ function! s:denture (start, match, stop)
     let l:line = s:findnonblank(a:start)
     let l:iindent = indent(l:line) " initial indent
 
-    let l:vars = { 'iindent': l:iindent, 'eol': 0 }
+    let l:vars = { 'iindent': l:iindent, 'eof': 0 }
     
     let l:last = s:lastline(l:line, 1, a:match, a:stop, l:vars)
     let l:last = l:last ? l:last : line('$')
 
-    let l:vars.eol = l:last == line('$')
+    let l:vars.eof = l:last == line('$')
 
     let l:first = s:lastline(l:line, -1, a:match, a:stop, l:vars)
     let l:first = l:first ? l:first : 1
@@ -99,7 +99,7 @@ endfunction
 
 "" Return line range surrounding "start", indented >= "start", and delimited by blank lines, plus trailing blank lines
 function! s:ai (start)
-    let l:match = '(a:step > 0 || l:eol || !l:blank) && l:indent >= l:iindent'
+    let l:match = '(a:step > 0 || l:eof || !l:blank) && l:indent >= l:iindent'
     let l:stop = '!l:blank && l:prevblank && l:indent <= l:iindent'
     return s:denture(a:start, l:match, l:stop)
 endfunction
