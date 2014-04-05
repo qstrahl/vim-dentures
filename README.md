@@ -1,6 +1,6 @@
 # vim-dentures
 
-Indentation text-objects to give your old Vim some new byte.
+Indentation text-objects to give your old Vim some new bytes.
 
 ## Introduction
 

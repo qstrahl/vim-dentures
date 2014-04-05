@@ -1,4 +1,4 @@
-*dentures.txt*  Indentation |text-objects| to give your old Vim some new byte
+*dentures.txt*  Indentation |text-objects| to give your old Vim some new bytes
 
 Author:         Quinn Strahl <https://github.com/qstrahl>
 GitHub:         *https://github.com/qstrahl/vim-dentures*
