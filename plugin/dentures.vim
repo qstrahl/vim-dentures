@@ -1,8 +1,8 @@
-" if exists('g:loaded_dentures')
-"     finish
-" endif
+if exists('g:loaded_dentures')
+    finish
+endif
 
-" let g:loaded_dentures = 1
+let g:loaded_dentures = 1
 
 "" Return 1 if line "line" is blank, else 0
 function! s:blank (line)
