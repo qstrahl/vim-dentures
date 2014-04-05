@@ -1,0 +1,47 @@
+*dentures.txt*  Indentation |text-objects| to give your old Vim some new byte
+
+Author:         Quinn Strahl <https://github.com/qstrahl>
+GitHub:         *https://github.com/qstrahl/vim-dentures*
+License:        Same as Vim (see |license|)
+
+INTRODUCTION                                    *dentures*
+
+In addition to helping old people chew food, "dentures" is a playful term I 
+made up for indentation |text-objects|, and is also the name of this plugin.
+
+TEXT OBJECTS                                    *dentures-text-objects*
+
+Dentures introduces the following |text-objects| to your crusty old Vim, all
+of which are available in |visual-mode| and |Operator-pending-mode|:
+
+                                                *dentures-ai* *v_ai* *ai*
+ai                      "an indent", select surrounding lines with greater or
+                        equal indentation, delimited by blank lines. Leading
+                        or trailing blank lines are included in the selection.
+
+                                                *dentures-ii* *v_ii* *ii*
+ii                      "inner indent", select surrounding lines with greater
+                        or equal indentation, delimited by blank lines.
+
+                                                *dentures-aI* *v_aI* *aI*
+aI                      "an INDENT", select surrounding lines with greater or
+                        equal indentation, including blank lines between and
+                        leading or trailing blank lines.
+
+                                                *dentures-iI* *v_iI* *iI*
+iI                      "inner INDENT", select surrounding lines with greater
+                        or equal indentation, including blank lines between.
+
+                                                *dentures-CTRL-V*
+                                                *dentures-blockwise*
+When any of the above |text-objects| are invoked from |blockwise-visual| mode,
+the selection will begin at the first non-blank character of the first
+selected line. Try it; you'll like it. (See |blockwise-operators|)
+
+TAKE A BITE                                     *dentures-and-you*
+
+The best way to wrap your head around dentures is to take a bite; try out each
+of the |text-objects| introduced by this plugin for yourself. Great care has
+been taken to behave in a way that is consistent with other |text-objects|.
+
+ vim:tw=78:et:ft=help:norl:fo=tcq:
