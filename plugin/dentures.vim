@@ -127,22 +127,15 @@ function! s:select (denture, start, mode)
     normal! gv$
 endfunction
 
-onoremap <silent> <Plug>(InnerDenture) :<C-U>call <SID>select('ii', line('.'), "V")<CR>
-onoremap <silent> <Plug>(InnerDENTURE) :<C-U>call <SID>select('iI', line('.'), "V")<CR>
-vnoremap <silent> <Plug>(InnerDenture) :<C-U>call <SID>select('ii', line('.'), visualmode())<CR>
-vnoremap <silent> <Plug>(InnerDENTURE) :<C-U>call <SID>select('iI', line('.'), visualmode())<CR>
+"" Register a new denture map
+function! s:map (name, denture)
+    exe "ono <silent> <Plug>(" . a:name . ") :<C-U>call <SID>select('" . a:denture . "', line('.'), 'V')<CR>"
+    exe "vno <silent> <Plug>(" . a:name . ") :<C-U>call <SID>select('" . a:denture . "', line('.'), visualmode())<CR>"
+    exe "omap <silent>" a:denture "<Plug>(" . a:name . ")"
+    exe "vmap <silent>" a:denture "<Plug>(" . a:name . ")"
+endfunction
 
-onoremap <silent> <Plug>(ADenture) :<C-U>call <SID>select('ai', line('.'), "V")<CR>
-onoremap <silent> <Plug>(ADENTURE) :<C-U>call <SID>select('aI', line('.'), "V")<CR>
-vnoremap <silent> <Plug>(ADenture) :<C-U>call <SID>select('ai', line('.'), visualmode())<CR>
-vnoremap <silent> <Plug>(ADENTURE) :<C-U>call <SID>select('aI', line('.'), visualmode())<CR>
-
-omap <silent> ii <Plug>(InnerDenture)
-omap <silent> iI <Plug>(InnerDENTURE)
-vmap <silent> ii <Plug>(InnerDenture)
-vmap <silent> iI <Plug>(InnerDENTURE)
-
-omap <silent> ai <Plug>(ADenture)
-omap <silent> aI <Plug>(ADENTURE)
-vmap <silent> ai <Plug>(ADenture)
-vmap <silent> aI <Plug>(ADENTURE)
+call s:map('InnerDenture', 'ii')
+call s:map('InnerDENTURE', 'iI')
+call s:map('ADenture', 'ai')
+call s:map('ADENTURE', 'aI')
