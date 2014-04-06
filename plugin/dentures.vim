@@ -119,11 +119,11 @@ function! s:select (denture, start, mode, operator)
 
     call cursor(l:first, 1)
     exe 'normal! ^'
-    exe 'normal!' a:mode == "\<C-V>" ? "\<C-V>" : a:operator ? 'v' : 'V'
+    exe 'normal!' a:mode == "\<C-V>" || len(a:operator) ? a:mode : 'V'
     call cursor(l:last, 1)
     exe 'normal! $'
-    if a:operator
-        exe 'normal! h'
+    if a:operator ==# 'c'
+        exe 'normal!' len(getline(l:last)) ? 'h' : 'k'
     endif
     exe "normal! \<Esc>"
     normal! gv
@@ -131,8 +131,8 @@ endfunction
 
 "" Register a new denture map
 function! s:map (name, denture)
-    exe "ono <silent> <Plug>(" . a:name . ") :<C-U>call <SID>select('" . a:denture . "', line('.'), 'v', 1)<CR>"
-    exe "vno <silent> <Plug>(" . a:name . ") :<C-U>call <SID>select('" . a:denture . "', line('.'), visualmode(), 0)<CR>"
+    exe "ono <silent> <Plug>(" . a:name . ") :<C-U>call <SID>select('" . a:denture . "', line('.'), v:operator == 'c' ? 'v' : 'V', v:operator)<CR>"
+    exe "vno <silent> <Plug>(" . a:name . ") :<C-U>call <SID>select('" . a:denture . "', line('.'), visualmode(), '')<CR>"
     exe "omap <silent>" a:denture "<Plug>(" . a:name . ")"
     exe "vmap <silent>" a:denture "<Plug>(" . a:name . ")"
 endfunction
