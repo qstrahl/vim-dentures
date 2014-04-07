@@ -86,7 +86,7 @@ endfunction
 "" Return line range surrounding "start", indented >= "start", and delimited by blank lines
 function! s:ii (start)
     let l:match = '!l:blank && l:indent >= l:iindent'
-    let l:stop = '!l:blank && l:prevblank && l:indent <= l:iindent'
+    let l:stop = 'l:indent < l:iindent || !l:blank && l:prevblank && l:indent == l:iindent'
     return s:denture(a:start, l:match, l:stop)
 endfunction
 
@@ -100,7 +100,7 @@ endfunction
 "" Return line range surrounding "start", indented >= "start", and delimited by blank lines, plus trailing blank lines
 function! s:ai (start)
     let l:match = '(a:step > 0 || l:eof || !l:blank) && l:indent >= l:iindent'
-    let l:stop = '!l:blank && l:prevblank && l:indent <= l:iindent'
+    let l:stop = 'l:indent < l:iindent || !l:blank && l:prevblank && l:indent == l:iindent'
     return s:denture(a:start, l:match, l:stop)
 endfunction
 
