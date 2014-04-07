@@ -111,7 +111,7 @@ function! s:aI (start)
     return s:denture(a:start, l:match, l:stop)
 endfunction
 
-"" Select denture "denture" from line "start" with visual mode "mode"
+"" Select denture "denture" from line "start" with visual mode "mode", behaving appropriately for "operator"
 function! s:select (denture, start, mode, operator)
     let l:lines = function('s:' . a:denture)(a:start)
     let l:first = l:lines[0]
