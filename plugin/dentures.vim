@@ -134,7 +134,7 @@ function! s:map (name, denture)
     exe "ono <silent> <Plug>(" . a:name . ") :<C-U>call <SID>select('" . a:denture . "', line('.'), v:operator == 'c' ? 'v' : 'V', v:operator)<CR>"
     exe "vno <silent> <Plug>(" . a:name . ") :<C-U>call <SID>select('" . a:denture . "', line('.'), visualmode(), '')<CR>"
     exe "omap <silent>" a:denture "<Plug>(" . a:name . ")"
-    exe "vmap <silent>" a:denture "<Plug>(" . a:name . ")"
+    exe "xmap <silent>" a:denture "<Plug>(" . a:name . ")"
 endfunction
 
 call s:map('InnerDenture', 'ii')
