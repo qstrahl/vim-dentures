@@ -1,71 +1,87 @@
-"" Find the line nearest to "line" for which "expr" is true
-function! dentures#nearest (line, expr, ...)
-    "" Optional third argument determines how we increment the line number we're looking at
-    let l:inc = a:0 < 1 ? 1 : a:1
-
-    "" It also determines if we look both ways; if omitted, we look both ways
-    let l:reverse = a:0 < 1 ? 1 : 0
-
-    "" Optional fourth argument determines what value to return if we find nothing
-    let l:default = a:0 < 2 ? 0 : a:2
+"" Find a line around a given line based on evaluated expressions
+"  "line"       - the line to start looking from
+"  "inc"        - the amount to increment by each time (if 0, will increment by 1 then reverse if no match found)
+"  "match"      - an expression that evals true if the current line is a valid candidate
+"  "stop"       - an expression that evals true when we should stop looking
+function! dentures#find (line, inc, match, stop)
+    "" If inc is 0, we should look forward 1 line at a time then look backward if nothing is found at first
+    let l:reverse = !a:inc
+    let l:inc = a:inc ? a:inc : +1
 
     "" Current line being examined
     let l:line = a:line
 
-    "" Line at which we should stop looking (first or last)
-    let l:stop = l:inc > 0 ? line('$') + 1 : 0
-
-    "" Current indent level (we'll initialise it for real later)
-    let l:indent = 0
+    "" Current line being examined
+    let l:line = a:line
 
     "" Indent level of the first line we're given
     let l:firstIndent = indent(a:line)
 
-    "" Go until it's time to stop
-    while l:line != l:stop
-        "" Compute helpful values for a:expr to use
+    "" Current indent level (we'll set it for real later, but we need to do this here to set "prevIndent" in the loop)
+    let l:indent = l:firstIndent
+
+    "" Is the current line empty? (Need to define this here for "prevEmpty" to be set in the loop)
+    let l:empty = 0
+
+    "" Last line to be matched by a:match
+    let l:matched = 0
+
+    "" Stop when we hit the beginning or end of file
+    while l:line >= 1 && l:line <= line('$')
+        "" Compute helpful values for use in "match" and "stop" expressions
+        let l:prevEmpty = l:empty
+        let l:prevIndent = l:indent
+        let l:prevEqual = l:prevIndent == l:firstIndent
         let l:empty = empty(getline(l:line))
         let l:indent = l:empty ? l:indent : indent(l:line)
         let l:lower = l:indent < l:firstIndent
-        let l:equal = l:indent == l:firstIndent
-        if eval(a:expr)
-            return l:line
+        let l:lowerOrEqual = l:indent <= l:firstIndent
+
+        "" Check if we should stop
+        if eval(a:stop)
+            break
         endif
+
+        "" Check if this line is a match
+        if eval(a:match)
+            let l:matched = l:line
+        endif
+
+        "" Finally increment the line number
         let l:line += l:inc
     endwhile
 
-    "" If we get here, a:expr never eval'd true. Reverse if we should, otherwise give up and return default
-    return l:reverse ? dentures#nearest(a:line, a:expr, -l:inc) : l:default
+    "" If we found a match, return it. Or if we should look in the other direction, do that. Or return 0
+    return l:matched ? l:matched : l:reverse ? dentures#find(a:line, -l:inc, a:match, a:stop) : 0
 endfunction
 
 "" Put your dentures in
 function! dentures#select (line, space, more, mode)
-    "" Find the nearest nonblank
-    let l:line = dentures#nearest(a:line, '!empty')
+    "" Find the first nonblank near the cursor
+    let l:line = dentures#find(a:line, 0, '!empty', 'l:matched')
 
     if !l:line
         return ''
     endif
 
-    "" Build the expr which determines the boundaries of the denture
-    let l:expr = a:more ? 'lower' : 'empty ? equal : lower'
+    "" Build the exprs which determines the boundaries of the denture. Abandon all hope, ye who enter here
+    let l:match = '!empty'
+    let l:stop = a:more ? 'lower' : '(!empty && prevEmpty && prevEqual) ? lowerOrEqual : lower'
+    " let l:stop = a:more ? 'lower' : 
 
     "" Find boundary lines of the denture. Default to values that will produce 0 on failure, after adjustment
-    let l:fline = dentures#nearest(l:line, l:expr, -1, -1) + 1
-    let l:lline = dentures#nearest(l:line, l:expr, +1, +1) - 1
-
-    "" Bail out if we couldn't find anything
-    if !l:fline || !l:lline
-        return ''
-    endif
+    let l:fline = dentures#find(l:line, -1, l:match, l:stop)
+    let l:lline = dentures#find(l:line, +1, l:match, l:stop)
 
     "" If we are supposed to include trailing space (successive empty lines), go find it
     if a:space && (l:lline == line('$') || !empty(getline(l:lline + 1)))
         "" Handle special cases where we should grab leading space instead
-        let l:fline = dentures#nearest(l:fline - 1, '!empty', -1, l:fline - 1) + 1
-    elseif a:space
+        let l:newfline = dentures#find(l:fline - 1, -1, 'empty', '!empty')
+        let l:fline = l:newfline ? l:newfline : l:fline
+    elseif a:space && empty(getline(l:lline + 1))
         "" Expand l:lline to include any empty lines that might come after it
-        let l:lline = dentures#nearest(l:lline + 1, '!empty', +1, l:lline + 1) - 1
+        let l:newlline = dentures#find(l:lline + 1, +1, 'empty', '!empty')
+        let l:lline = l:newlline ? l:newlline : l:lline
     endif
 
     "" Select the denture
