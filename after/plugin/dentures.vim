@@ -1,9 +1,9 @@
 "" Default mappings
 let s:mappings = [
-\  [ 'id', '<Plug>(InnerDenture)' ],
-\  [ 'iD', '<Plug>(InnerDENTURE)' ],
-\  [ 'ad', '<Plug>(OuterDenture)' ],
-\  [ 'aD', '<Plug>(OuterDENTURE)' ]
+\  [ 'ii', '<Plug>(InnerDenture)' ],
+\  [ 'iI', '<Plug>(InnerDENTURE)' ],
+\  [ 'ai', '<Plug>(OuterDenture)' ],
+\  [ 'aI', '<Plug>(OuterDENTURE)' ]
 \]
  
 for [lhs, rhs] in s:mappings
