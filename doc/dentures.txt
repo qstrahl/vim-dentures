@@ -30,15 +30,15 @@ CUSTOMIZING                                     *dentures-customizing*
 The above mappings are default settings. They won't replace existing mappings,
 and they won't be created if you map dentures to other keys. The defaults are:
 
-vmap id <Plug>(InnerDenture)
-vmap iD <Plug>(InnerDENTURE)
-vmap ad <Plug>(OuterDenture)
-vmap aD <Plug>(OuterDENTURE)
+vmap ii <Plug>(InnerDenture)
+vmap iI <Plug>(InnerDENTURE)
+vmap ai <Plug>(OuterDenture)
+vmap aI <Plug>(OuterDENTURE)
 
-omap id <Plug>(InnerDenture)
-omap iD <Plug>(InnerDENTURE)
-omap ad <Plug>(OuterDenture)
-omap aD <Plug>(OuterDENTURE)
+omap ii <Plug>(InnerDenture)
+omap iI <Plug>(InnerDENTURE)
+omap ai <Plug>(OuterDenture)
+omap aI <Plug>(OuterDENTURE)
 
 TAKE A BITE                                     *dentures-examples*
                                                 *dentures-and-you*
@@ -49,14 +49,14 @@ been taken to ensure they behave in a way that is sensible and familiar.
 
 To illustrate where dentures really shine, try chewing in |visual-block| mode:
 
-    <C-v>id         select indenture
+    <C-v>ii         select indenture
     I(<Esc>         prepend "("
     gv              reselect previous
     A)<Esc>         append ")"
 
 Combine with other operators for extra chewing power! Try it with |surround|:
 
-    <C-v>id         (select indenture)
+    <C-v>ii         (select indenture)
     S(              (surround with parens)
 
 (Surround plugin authored by tpope, https://github.com/tpope/vim-surround)
