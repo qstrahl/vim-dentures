@@ -67,7 +67,6 @@ function! dentures#select (line, space, more, mode)
     "" Build the exprs which determines the boundaries of the denture. Abandon all hope, ye who enter here
     let l:match = '!empty'
     let l:stop = a:more ? 'lower' : '(!empty && prevEmpty && prevEqual) ? lowerOrEqual : lower'
-    " let l:stop = a:more ? 'lower' : 
 
     "" Find boundary lines of the denture. Default to values that will produce 0 on failure, after adjustment
     let l:fline = dentures#find(l:line, -1, l:match, l:stop)
