@@ -84,5 +84,9 @@ function! dentures#select (line, space, more, mode)
     endif
 
     "" Select the denture
-    return ":\<C-u>normal! ".l:fline."gg^\<C-v>".a:mode.l:lline."gg$\<CR>"
+    if a:mode == 'operator'
+      execute "normal! ".l:fline."ggV".l:lline."gg"
+    else
+      return ":\<C-u>normal! ".l:fline."gg^\<C-v>".a:mode.l:lline."gg$\<CR>"
+    endif
 endfunction
